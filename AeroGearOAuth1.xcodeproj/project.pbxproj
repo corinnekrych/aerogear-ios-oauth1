@@ -9,13 +9,13 @@
 /* Begin PBXBuildFile section */
 		066F21F6BAF4AEB9F09975E5 /* Pods_AeroGearOAuth1Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1305FA999586C0C9DA358153 /* Pods_AeroGearOAuth1Tests.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		483CF2BB1AC059EF00108511 /* AeroGearOAuth1Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 485AE8481AC02A3500AF3AA7 /* AeroGearOAuth1Tests.swift */; };
+		483CF2BD1AC060A200108511 /* OAuth1Signature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 483CF2BC1AC060A200108511 /* OAuth1Signature.swift */; };
 		485AE83C1AC02A3500AF3AA7 /* AeroGearOAuth1.h in Headers */ = {isa = PBXBuildFile; fileRef = 485AE83B1AC02A3500AF3AA7 /* AeroGearOAuth1.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		485AE8581AC02A6100AF3AA7 /* OAuth1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 485AE8521AC02A6100AF3AA7 /* OAuth1.swift */; };
 		485AE8591AC02A6100AF3AA7 /* OAuth1Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 485AE8531AC02A6100AF3AA7 /* OAuth1Config.swift */; };
 		485AE85A1AC02A6100AF3AA7 /* OAuth1Module.swift in Sources */ = {isa = PBXBuildFile; fileRef = 485AE8541AC02A6100AF3AA7 /* OAuth1Module.swift */; };
 		485AE85B1AC02A6100AF3AA7 /* OAuth1Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = 485AE8551AC02A6100AF3AA7 /* OAuth1Session.swift */; };
 		485AE85D1AC02A6100AF3AA7 /* UntrustedMemoryOAuth1Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = 485AE8571AC02A6100AF3AA7 /* UntrustedMemoryOAuth1Session.swift */; };
-		485AE86F1AC0479D00AF3AA7 /* OAuth1Signature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 485AE86E1AC0479D00AF3AA7 /* OAuth1Signature.swift */; };
 		485AE8931AC0570F00AF3AA7 /* AeroGearOAuth1.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 485AE8361AC02A3500AF3AA7 /* AeroGearOAuth1.framework */; };
 		BAA14D6825BFBA4428B4E3CA /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4AFB9CDD90F48009A8CD7ADD /* Pods.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 /* End PBXBuildFile section */
@@ -32,6 +32,7 @@
 
 /* Begin PBXFileReference section */
 		1305FA999586C0C9DA358153 /* Pods_AeroGearOAuth1Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AeroGearOAuth1Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		483CF2BC1AC060A200108511 /* OAuth1Signature.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OAuth1Signature.swift; sourceTree = "<group>"; };
 		485AE8361AC02A3500AF3AA7 /* AeroGearOAuth1.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AeroGearOAuth1.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		485AE83A1AC02A3500AF3AA7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		485AE83B1AC02A3500AF3AA7 /* AeroGearOAuth1.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AeroGearOAuth1.h; sourceTree = "<group>"; };
@@ -44,7 +45,6 @@
 		485AE8571AC02A6100AF3AA7 /* UntrustedMemoryOAuth1Session.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UntrustedMemoryOAuth1Session.swift; sourceTree = "<group>"; };
 		485AE8691AC02F2500AF3AA7 /* CryptoSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CryptoSwift.framework; path = "Pods/../build/Debug-iphoneos/Pods/CryptoSwift.framework"; sourceTree = "<group>"; };
 		485AE86B1AC02F2B00AF3AA7 /* AeroGearHttp.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AeroGearHttp.framework; path = "Pods/../build/Debug-iphoneos/Pods/AeroGearHttp.framework"; sourceTree = "<group>"; };
-		485AE86E1AC0479D00AF3AA7 /* OAuth1Signature.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = OAuth1Signature.swift; path = "../../aerogear-ios-oauth1.old/AeroGearOAuth1/OAuth1Signature.swift"; sourceTree = "<group>"; };
 		485AE88D1AC0570F00AF3AA7 /* AeroGearOAuth1Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AeroGearOAuth1Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		4AFB9CDD90F48009A8CD7ADD /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		880834443D328735EADCFAF3 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
@@ -100,7 +100,7 @@
 				485AE8521AC02A6100AF3AA7 /* OAuth1.swift */,
 				485AE8531AC02A6100AF3AA7 /* OAuth1Config.swift */,
 				485AE8541AC02A6100AF3AA7 /* OAuth1Module.swift */,
-				485AE86E1AC0479D00AF3AA7 /* OAuth1Signature.swift */,
+				483CF2BC1AC060A200108511 /* OAuth1Signature.swift */,
 				485AE8551AC02A6100AF3AA7 /* OAuth1Session.swift */,
 				485AE8571AC02A6100AF3AA7 /* UntrustedMemoryOAuth1Session.swift */,
 				485AE8391AC02A3500AF3AA7 /* Supporting Files */,
@@ -364,7 +364,7 @@
 			files = (
 				485AE85B1AC02A6100AF3AA7 /* OAuth1Session.swift in Sources */,
 				485AE85A1AC02A6100AF3AA7 /* OAuth1Module.swift in Sources */,
-				485AE86F1AC0479D00AF3AA7 /* OAuth1Signature.swift in Sources */,
+				483CF2BD1AC060A200108511 /* OAuth1Signature.swift in Sources */,
 				485AE8581AC02A6100AF3AA7 /* OAuth1.swift in Sources */,
 				485AE8591AC02A6100AF3AA7 /* OAuth1Config.swift in Sources */,
 				485AE85D1AC02A6100AF3AA7 /* UntrustedMemoryOAuth1Session.swift in Sources */,
