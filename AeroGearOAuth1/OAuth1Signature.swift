@@ -8,13 +8,16 @@
 
 import CryptoSwift
 
+public var timestamp = {String(Int64(NSDate().timeIntervalSince1970))}
+public var nonce = {(NSUUID().UUIDString as NSString).substringToIndex(8)}
+
 public func authorizationHeaderForMethod(method: String, url: NSURL, parameters: [String: AnyObject], clientId: String, clientSecret: String, token: String? = nil, tokenSecret: String? = nil) -> String {
     var authzParam = [String: AnyObject]()
     authzParam["oauth_version"] = "1.0"
     authzParam["oauth_signature_method"] = "HMAC-SHA1"
     authzParam["oauth_consumer_key"] = clientId
-    authzParam["oauth_timestamp"] = String(Int64(NSDate().timeIntervalSince1970))
-    authzParam["oauth_nonce"] = (NSUUID().UUIDString as NSString).substringToIndex(8)
+    authzParam["oauth_timestamp"] = timestamp()
+    authzParam["oauth_nonce"] = nonce()
     
     if (token != nil){
         authzParam["oauth_token"] = token
@@ -26,6 +29,7 @@ public func authorizationHeaderForMethod(method: String, url: NSURL, parameters:
     }
     
     // Add signature
+    println("finalParameters::\(authzParam)")
     if let signature = signatureForMethod(method, url, authzParam, clientId, clientSecret, token, tokenSecret) {
         authzParam["oauth_signature"] = signature
     }
@@ -66,8 +70,8 @@ func signatureForMethod(method: String, url: NSURL, parameters: [String: AnyObje
     }
     let encodedConsumerSecret = clientSecret.urlEncode()
     
-    let signingKey = "\(encodedConsumerSecret)&\(tokenSecret)"
-    
+    let signingKey = "\(encodedConsumerSecret)&\(tokenSecretEncoded)"
+    println("signingKey::\(signingKey)")
     var parameterComponents = urlEncode(parameters)
     parameterComponents.sort { $0 < $1 }
     
@@ -76,10 +80,15 @@ func signatureForMethod(method: String, url: NSURL, parameters: [String: AnyObje
     let encodedURL = url.absoluteString!.urlEncode()
     
     let signatureBaseString = "\(method)&\(encodedURL)&\(parameterString)"
-    
+    println("signatureBaseString::\(signatureBaseString)")
     let key = signingKey.dataUsingEncoding(NSUTF8StringEncoding)!
     let msg = signatureBaseString.dataUsingEncoding(NSUTF8StringEncoding)!
-    let sha1 = Authenticator.HMAC(key: key, variant: .md5).authenticate(msg)
-    
-    return sha1?.base64EncodedStringWithOptions(nil)
+    println("key=\(key):::msg=\(msg)")
+    let sha1 = Authenticator.HMAC(key: key, variant: .sha1).authenticate(msg)
+    if sha1 == nil {
+        return nil
+    }
+    let str = sha1!.base64EncodedStringWithOptions(nil)
+    println("sha1::\(str)")
+    return str
 }
