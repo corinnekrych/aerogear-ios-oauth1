@@ -8,3 +8,7 @@ pod 'AeroGearHttp', :git => "https://github.com/corinnekrych/aerogear-ios-http-1
 pod 'CryptoSwift', '0.0.8' 
 
 
+target 'AeroGearOAuth1Tests' do
+	pod 'AeroGearHttp', :git => "https://github.com/corinnekrych/aerogear-ios-http-1.git", :branch => "oauth1.support"
+    pod 'CryptoSwift', '0.0.8' 
+end
