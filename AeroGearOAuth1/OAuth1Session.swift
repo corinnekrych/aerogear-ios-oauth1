@@ -27,15 +27,19 @@ public protocol OAuth1Session {
     var accountId: String {get}
     
     /**
-    The access token which expires.
+    The temporary token.
     */
     var token: String? {get set}
     
     /**
-    The access token which expires.
+    The temporary secret token.
     */
     var tokenSecret: String? {get set}
     
+    /**
+    The verifier genrated in step 2 of OAuth1.
+    */
+    var verifier: String? {get set}
     
     /**
     Clears any tokens storage

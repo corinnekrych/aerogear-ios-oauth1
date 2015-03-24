@@ -33,8 +33,10 @@ public class UntrustedMemoryOAuth1Session: OAuth1Session {
     public var accountId: String
     
     public var token: String?
-
+    
     public var tokenSecret: String?
+    
+    public var verifier: String?
     
     /**
     Save in memory tokens information.
@@ -50,18 +52,20 @@ public class UntrustedMemoryOAuth1Session: OAuth1Session {
     public func clearTokens() {
         self.token = nil
         self.tokenSecret = nil
+        self.verifier = nil
     }
     
     /**
-    Initialize session using account id. 
+    Initialize session using account id.
     
     :param: accountId uniqueId to identify the OAuth1module
     :param: token optional parameter to initilaize the storage with initial values
     :param: tokenSecret optional parameter to initilaize the storage with initial values
     */
-    public init(accountId: String, token: String? = nil, tokenSecret: String? = nil) {
+    public init(accountId: String, token: String? = nil, tokenSecret: String? = nil, verifier: String? = nil) {
         self.token = token
         self.tokenSecret = tokenSecret
+        self.verifier = verifier
         self.accountId = accountId
     }
 }

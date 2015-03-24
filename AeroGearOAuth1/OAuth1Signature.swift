@@ -32,17 +32,25 @@ public func authorizationHeaderForMethod(method: String, url: NSURL, parameters:
         authzParam["oauth_token"] = token
     }
     
-    // Add others params, overriding authz params if needed
+    // Overriding authz params with authz param from method call
     for (key, value: AnyObject) in parameters {
-        authzParam.updateValue(value, forKey: key)
+        if key.hasPrefix("oauth_") {
+            authzParam.updateValue(value, forKey: key)
+        }
     }
     
-    // Add signature
-    if let signature = signatureForMethod(method, url, authzParam, clientId, clientSecret, token, tokenSecret) {
+    // All parameters
+    var combinedParameters = authzParam
+    for (key, value: AnyObject) in parameters {
+        combinedParameters.updateValue(value, forKey: key)
+    }
+    
+    // Add signature. Signature take in account all parameter
+    if let signature = signatureForMethod(method, url, combinedParameters, clientId, clientSecret, token, tokenSecret) {
         authzParam["oauth_signature"] = signature
     }
     
-    // Parameters must be sorted alphabetically
+    // Oauth1 parameters must be sorted alphabetically
     var parameterComponents = urlEncode(authzParam)
     parameterComponents.sort { $0 < $1 }
     
@@ -80,7 +88,6 @@ func signatureForMethod(method: String, url: NSURL, parameters: [String: AnyObje
     let encodedConsumerSecret = clientSecret.urlEncode()
     // Signing key always includes & even with empty token secret
     let signingKey = "\(encodedConsumerSecret)&\(tokenSecretEncoded)"
-
     var parameterComponents = urlEncode(parameters)
     parameterComponents.sort { $0 < $1 }
     
@@ -93,10 +100,11 @@ func signatureForMethod(method: String, url: NSURL, parameters: [String: AnyObje
     // Hash using HMAC-SHA1
     let key = signingKey.dataUsingEncoding(NSUTF8StringEncoding)!
     let msg = signatureBaseString.dataUsingEncoding(NSUTF8StringEncoding)!
+    
     let sha1 = Authenticator.HMAC(key: key, variant: .sha1).authenticate(msg)
     if sha1 == nil {
         return nil
     }
     return sha1!.base64EncodedStringWithOptions(nil)
-
+    
 }
