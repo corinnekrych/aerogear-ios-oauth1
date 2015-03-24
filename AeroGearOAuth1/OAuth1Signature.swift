@@ -1,17 +1,26 @@
-//
-//  OAuth1Signature.swift
-//  AeroGearOAuth1
-//
-//  Created by Corinne Krych on 23/03/15.
-//  Copyright (c) 2015 aerogear. All rights reserved.
-//
+/*
+* JBoss, Home of Professional Open Source.
+* Copyright Red Hat, Inc., and individual contributors
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*     http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*/
 
 import CryptoSwift
 
-public var timestamp = {String(Int64(NSDate().timeIntervalSince1970))}
-public var nonce = {(NSUUID().UUIDString as NSString).substringToIndex(8)}
+public var timestampSince1970 = {String(Int64(NSDate().timeIntervalSince1970))}
+public var nonceNSUUID = {(NSUUID().UUIDString as NSString).substringToIndex(8)}
 
-public func authorizationHeaderForMethod(method: String, url: NSURL, parameters: [String: AnyObject], clientId: String, clientSecret: String, token: String? = nil, tokenSecret: String? = nil) -> String {
+public func authorizationHeaderForMethod(method: String, url: NSURL, parameters: [String: AnyObject], clientId: String, clientSecret: String, token: String? = nil, tokenSecret: String? = nil, timestamp: () -> String = timestampSince1970, nonce: () -> String = nonceNSUUID) -> String {
     var authzParam = [String: AnyObject]()
     authzParam["oauth_version"] = "1.0"
     authzParam["oauth_signature_method"] = "HMAC-SHA1"
@@ -19,7 +28,7 @@ public func authorizationHeaderForMethod(method: String, url: NSURL, parameters:
     authzParam["oauth_timestamp"] = timestamp()
     authzParam["oauth_nonce"] = nonce()
     
-    if (token != nil){
+    if token != nil {
         authzParam["oauth_token"] = token
     }
     
@@ -29,7 +38,6 @@ public func authorizationHeaderForMethod(method: String, url: NSURL, parameters:
     }
     
     // Add signature
-    println("finalParameters::\(authzParam)")
     if let signature = signatureForMethod(method, url, authzParam, clientId, clientSecret, token, tokenSecret) {
         authzParam["oauth_signature"] = signature
     }
@@ -38,6 +46,7 @@ public func authorizationHeaderForMethod(method: String, url: NSURL, parameters:
     var parameterComponents = urlEncode(authzParam)
     parameterComponents.sort { $0 < $1 }
     
+    // Format OAuth header
     var headerComponents = [String]()
     for component in parameterComponents {
         let subcomponent = component.componentsSeparatedByString("=") as [String]
@@ -69,26 +78,25 @@ func signatureForMethod(method: String, url: NSURL, parameters: [String: AnyObje
         tokenSecretEncoded = tokenSecret.urlEncode()
     }
     let encodedConsumerSecret = clientSecret.urlEncode()
-    
+    // Signing key always includes & even with empty token secret
     let signingKey = "\(encodedConsumerSecret)&\(tokenSecretEncoded)"
-    println("signingKey::\(signingKey)")
+
     var parameterComponents = urlEncode(parameters)
     parameterComponents.sort { $0 < $1 }
     
+    // Sort parameterss
     let parameterString = "&".join(parameterComponents).urlEncode()
     
     let encodedURL = url.absoluteString!.urlEncode()
     
     let signatureBaseString = "\(method)&\(encodedURL)&\(parameterString)"
-    println("signatureBaseString::\(signatureBaseString)")
+    // Hash using HMAC-SHA1
     let key = signingKey.dataUsingEncoding(NSUTF8StringEncoding)!
     let msg = signatureBaseString.dataUsingEncoding(NSUTF8StringEncoding)!
-    println("key=\(key):::msg=\(msg)")
     let sha1 = Authenticator.HMAC(key: key, variant: .sha1).authenticate(msg)
     if sha1 == nil {
         return nil
     }
-    let str = sha1!.base64EncodedStringWithOptions(nil)
-    println("sha1::\(str)")
-    return str
+    return sha1!.base64EncodedStringWithOptions(nil)
+
 }

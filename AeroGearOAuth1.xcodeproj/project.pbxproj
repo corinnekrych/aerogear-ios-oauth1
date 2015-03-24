@@ -11,7 +11,6 @@
 		483CF2BB1AC059EF00108511 /* AeroGearOAuth1Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 485AE8481AC02A3500AF3AA7 /* AeroGearOAuth1Tests.swift */; };
 		483CF2BD1AC060A200108511 /* OAuth1Signature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 483CF2BC1AC060A200108511 /* OAuth1Signature.swift */; };
 		485AE83C1AC02A3500AF3AA7 /* AeroGearOAuth1.h in Headers */ = {isa = PBXBuildFile; fileRef = 485AE83B1AC02A3500AF3AA7 /* AeroGearOAuth1.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		485AE8581AC02A6100AF3AA7 /* OAuth1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 485AE8521AC02A6100AF3AA7 /* OAuth1.swift */; };
 		485AE8591AC02A6100AF3AA7 /* OAuth1Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 485AE8531AC02A6100AF3AA7 /* OAuth1Config.swift */; };
 		485AE85A1AC02A6100AF3AA7 /* OAuth1Module.swift in Sources */ = {isa = PBXBuildFile; fileRef = 485AE8541AC02A6100AF3AA7 /* OAuth1Module.swift */; };
 		485AE85B1AC02A6100AF3AA7 /* OAuth1Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = 485AE8551AC02A6100AF3AA7 /* OAuth1Session.swift */; };
@@ -38,7 +37,6 @@
 		485AE83B1AC02A3500AF3AA7 /* AeroGearOAuth1.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AeroGearOAuth1.h; sourceTree = "<group>"; };
 		485AE8471AC02A3500AF3AA7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		485AE8481AC02A3500AF3AA7 /* AeroGearOAuth1Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AeroGearOAuth1Tests.swift; sourceTree = "<group>"; };
-		485AE8521AC02A6100AF3AA7 /* OAuth1.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OAuth1.swift; sourceTree = "<group>"; };
 		485AE8531AC02A6100AF3AA7 /* OAuth1Config.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OAuth1Config.swift; sourceTree = "<group>"; };
 		485AE8541AC02A6100AF3AA7 /* OAuth1Module.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OAuth1Module.swift; sourceTree = "<group>"; };
 		485AE8551AC02A6100AF3AA7 /* OAuth1Session.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OAuth1Session.swift; sourceTree = "<group>"; };
@@ -97,7 +95,6 @@
 		485AE8381AC02A3500AF3AA7 /* AeroGearOAuth1 */ = {
 			isa = PBXGroup;
 			children = (
-				485AE8521AC02A6100AF3AA7 /* OAuth1.swift */,
 				485AE8531AC02A6100AF3AA7 /* OAuth1Config.swift */,
 				485AE8541AC02A6100AF3AA7 /* OAuth1Module.swift */,
 				483CF2BC1AC060A200108511 /* OAuth1Signature.swift */,
@@ -365,7 +362,6 @@
 				485AE85B1AC02A6100AF3AA7 /* OAuth1Session.swift in Sources */,
 				485AE85A1AC02A6100AF3AA7 /* OAuth1Module.swift in Sources */,
 				483CF2BD1AC060A200108511 /* OAuth1Signature.swift in Sources */,
-				485AE8581AC02A6100AF3AA7 /* OAuth1.swift in Sources */,
 				485AE8591AC02A6100AF3AA7 /* OAuth1Config.swift in Sources */,
 				485AE85D1AC02A6100AF3AA7 /* UntrustedMemoryOAuth1Session.swift in Sources */,
 			);

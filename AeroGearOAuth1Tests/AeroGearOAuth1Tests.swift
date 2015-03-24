@@ -1,10 +1,20 @@
-//
-//  AeroGearOAuth1Tests.swift
-//  AeroGearOAuth1Tests
-//
-//  Created by Corinne Krych on 23/03/15.
-//  Copyright (c) 2015 aerogear. All rights reserved.
-//
+/*
+* JBoss, Home of Professional Open Source.
+* Copyright Red Hat, Inc., and individual contributors
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*     http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*/
+
 
 import UIKit
 import XCTest
@@ -23,28 +33,14 @@ class AeroGearOAuth1Tests: XCTestCase {
         super.tearDown()
     }
     
-//    func testSignature() {
-//        let url = NSURL(string: "http://example.com/request")
-//        let parameters = ["b5": "=%3D",
-//                   "a3": "a",
-//                   "c@": "",
-//                   "a2": "r b",
-//                   "oauth_consumer_key": "9djdj82h48djs9d2",
-//                   "oauth_token": "kkk9d7dh3k39sjv7",
-//                   "oauth_signature_method": "HMAC-SHA1",
-//                   "oauth_timestamp": "137131201",
-//                   //"oauth_nonce ": "7d8f3e4a",
-//                   "c2": ""]
-//        var signature = authorizationHeaderForMethod("POST", url!, parameters, "clienId", "clienSecret", token:nil, tokenSecret: nil)
-//        println(":::\(signature)")
-//    }
     
-    func testSignatureTwitter() {
+    func testCheckingTwitterSignatureWithFixedNonceAndTimestamp() {
 
         let url = NSURL(string: "https://api.twitter.com/oauth/request_token")
         let parameters = ["oauth_callback": "oauth-swift://oauth-callback/twitter"]
-        var signature = authorizationHeaderForMethod("POST", url!, parameters, "aTaSn8tBgQhSKSLotaPWnC0w7", "fvyCKCECrDXUqBtDGmgbxuXt2fhlsq2Feb18pSvpoF3zWIpoAP", token:nil, tokenSecret: nil)
-        println(":::TWITTER::\(signature)")
+        
+        var signature = authorizationHeaderForMethod("POST", url!, parameters, "aTaSn8tBgQhSKSLotaPWnC0w7", "fvyCKCECrDXUqBtDGmgbxuXt2fhlsq2Feb18pSvpoF3zWIpoAP", token:nil, tokenSecret: nil, {"1427128157"}, {"B78A4575"})
+        XCTAssertTrue((signature as NSString).containsString("oauth_signature=\"AdwwWXXKx3%2BE%2Bag%2FqRmm7Z63oqY%3D\""), "Fixing nonce and timestamp signature should be valid")
     }
     
 
