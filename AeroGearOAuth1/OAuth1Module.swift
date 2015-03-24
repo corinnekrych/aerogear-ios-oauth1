@@ -103,11 +103,9 @@ public class OAuth1Module: AuthzModule {
         // Build Json request with OAuth1 header
         let request = JsonRequestSerializer()
         let url = self.calculateURL(config.baseURL, url: config.requestTokenEndpoint)
-        request.headers = ["Authorization":  authorizationHeaderForMethod("POST", url, parameters, config.clientId, config.clientSecret, token: nil, tokenSecret: nil)]
-        // inject request with OAuth1 header
-        self.http = Http(baseURL: config.baseURL, sessionConfig: NSURLSessionConfiguration.defaultSessionConfiguration(), requestSerializer: request, responseSerializer: JsonResponseSerializer())
-        // make POSt to ask temporary token
-        self.http.POST(config.requestTokenEndpoint, parameters: parameters, completionHandler: { (response: AnyObject?, error: NSError?) -> Void in
+        let headers = ["Authorization":  authorizationHeaderForMethod("POST", url, parameters, config.clientId, config.clientSecret, token: nil, tokenSecret: nil)]
+        // Make POST http call to ask temporary token
+        self.http.POST(config.requestTokenEndpoint, parameters: parameters, headers: headers, completionHandler: { (response: AnyObject?, error: NSError?) -> Void in
             //
             println("RESPONSE::\(response)")
             //let responseString = NSString(data: response, encoding: NSUTF8StringEncoding) as String
