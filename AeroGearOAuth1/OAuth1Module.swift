@@ -99,6 +99,10 @@ public class OAuth1Module: AuthzModule {
                 self.oauth1Session.token = parameters["oauth_token"]
                 self.oauth1Session.tokenSecret = parameters["oauth_token_secret"]
                 self.authorize(completionHandler)
+            } else {
+                // Failure in OAuth1 flow
+                let error = NSError(domain: AGAuthzErrorDomain, code: 0, userInfo: [NSLocalizedDescriptionKey: "Failure in OAuth1 flow"])
+                completionHandler(nil, error);
             }
         })
     }
@@ -130,7 +134,15 @@ public class OAuth1Module: AuthzModule {
         if let token = self.oauth1Session.token {
             if let url = NSURL(string: http.calculateURL(config.baseURL, url:config.authorizeEndpoint).absoluteString! + "?oauth_token=\(token)") {
                 UIApplication.sharedApplication().openURL(url)
+            } else {
+                // Failure in OAuth1 flow
+                let error = NSError(domain: AGAuthzErrorDomain, code: 0, userInfo: [NSLocalizedDescriptionKey: "Failure in OAuth1 flow"])
+                completionHandler(nil, error);
             }
+        } else {
+            // Failure in OAuth1 flow
+            let error = NSError(domain: AGAuthzErrorDomain, code: 0, userInfo: [NSLocalizedDescriptionKey: "Failure in OAuth1 flow"])
+            completionHandler(nil, error);
         }
     }
     
@@ -159,8 +171,16 @@ public class OAuth1Module: AuthzModule {
                         completionHandler(parameters, nil)
                     }
                 })
+            } else {
+                // Failure in OAuth1 flow
+                let error = NSError(domain: AGAuthzErrorDomain, code: 0, userInfo: [NSLocalizedDescriptionKey: "Failure in OAuth1 flow"])
+                completionHandler(nil, error);
             }
-        } else {}
+        } else {
+            // Failure in OAuth1 flow
+            let error = NSError(domain: AGAuthzErrorDomain, code: 0, userInfo: [NSLocalizedDescriptionKey: "Failure in OAuth1 flow"])
+            completionHandler(nil, error);
+        }
     }
     
     /**
@@ -168,9 +188,15 @@ public class OAuth1Module: AuthzModule {
     
     :param: completionHandler A block object to be executed when the request operation finishes.
     */
-    // TODO
     public func requestAccess(completionHandler: (AnyObject?, NSError?) -> Void) {
-        self.requestToken(completionHandler)
+        if let token = self.oauth1Session.token {
+            var parameters =  [String: AnyObject]()
+            parameters["oauth_token"] = self.oauth1Session.token
+            parameters["oauth_token_secret"] =  self.oauth1Session.tokenSecret
+            completionHandler(parameters, nil)
+        } else {
+            self.requestToken(completionHandler)
+        }
     }
     
     /**

@@ -19,8 +19,7 @@
 import UIKit
 import XCTest
 import AeroGearOAuth1
-public var timestamp = {"1427128157"}
-public var nonce = {"B78A4575"}
+
 class AeroGearOAuth1Tests: XCTestCase {
     
     override func setUp() {
@@ -35,11 +34,11 @@ class AeroGearOAuth1Tests: XCTestCase {
     
     
     func testCheckingTwitterSignatureWithFixedNonceAndTimestamp() {
-
         let url = NSURL(string: "https://api.twitter.com/oauth/request_token")
-        let parameters = ["oauth_callback": "oauth-swift://oauth-callback/twitter"]
-        
-        var signature = authorizationHeaderForMethod("POST", url!, parameters, "aTaSn8tBgQhSKSLotaPWnC0w7", "fvyCKCECrDXUqBtDGmgbxuXt2fhlsq2Feb18pSvpoF3zWIpoAP", token:nil, tokenSecret: nil, {"1427128157"}, {"B78A4575"})
+        var parameters = ["oauth_callback": "oauth-swift://oauth-callback/twitter"]
+        parameters["oauth_nonce"] = "B78A4575"
+        parameters["oauth_timestamp"] = "1427128157"
+        var signature = authorizationHeaderForMethod("POST", url!, parameters, "aTaSn8tBgQhSKSLotaPWnC0w7", "fvyCKCECrDXUqBtDGmgbxuXt2fhlsq2Feb18pSvpoF3zWIpoAP", token:nil, tokenSecret: nil)
         XCTAssertTrue((signature as NSString).containsString("oauth_signature=\"AdwwWXXKx3%2BE%2Bag%2FqRmm7Z63oqY%3D\""), "Fixing nonce and timestamp signature should be valid")
     }
     

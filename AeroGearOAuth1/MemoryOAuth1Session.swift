@@ -25,7 +25,7 @@ extension String {
 /**
 An OAuth1Session implementation the stores OAuth1 metadata in-memory
 */
-public class UntrustedMemoryOAuth1Session: OAuth1Session {
+public class MemoryOAuth1Session: OAuth1Session {
     
     /**
     The account id.

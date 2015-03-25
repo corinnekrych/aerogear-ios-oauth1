@@ -17,16 +17,13 @@
 
 import CryptoSwift
 
-public var timestampSince1970 = {String(Int64(NSDate().timeIntervalSince1970))}
-public var nonceNSUUID = {(NSUUID().UUIDString as NSString).substringToIndex(8)}
-
-public func authorizationHeaderForMethod(method: String, url: NSURL, parameters: [String: AnyObject], clientId: String, clientSecret: String, token: String? = nil, tokenSecret: String? = nil, timestamp: () -> String = timestampSince1970, nonce: () -> String = nonceNSUUID) -> String {
+public func authorizationHeaderForMethod(method: String, url: NSURL, parameters: [String: AnyObject], clientId: String, clientSecret: String, token: String? = nil, tokenSecret: String? = nil) -> String {
     var authzParam = [String: AnyObject]()
     authzParam["oauth_version"] = "1.0"
     authzParam["oauth_signature_method"] = "HMAC-SHA1"
     authzParam["oauth_consumer_key"] = clientId
-    authzParam["oauth_timestamp"] = timestamp()
-    authzParam["oauth_nonce"] = nonce()
+    authzParam["oauth_timestamp"] = String(Int64(NSDate().timeIntervalSince1970))
+    authzParam["oauth_nonce"] = (NSUUID().UUIDString as NSString).substringToIndex(8)
     
     if token != nil {
         authzParam["oauth_token"] = token
@@ -50,11 +47,11 @@ public func authorizationHeaderForMethod(method: String, url: NSURL, parameters:
         authzParam["oauth_signature"] = signature
     }
     
-    // Oauth1 parameters must be sorted alphabetically
+    // OAuth1 parameters must be sorted alphabetically
     var parameterComponents = urlEncode(authzParam)
     parameterComponents.sort { $0 < $1 }
     
-    // Format OAuth header
+    // Format OAuth1 header
     var headerComponents = [String]()
     for component in parameterComponents {
         let subcomponent = component.componentsSeparatedByString("=") as [String]
