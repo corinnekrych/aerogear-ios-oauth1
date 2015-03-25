@@ -66,7 +66,7 @@ public class OAuth1Module: AuthzModule {
     public required init(config: OAuth1Config, session: OAuth1Session? = nil, requestSerializer: RequestSerializer = HttpRequestSerializer(), responseSerializer: ResponseSerializer = StringResponseSerializer()) {
         
         if (session == nil) {
-            self.oauth1Session = UntrustedMemoryOAuth1Session(accountId: config.accountId!)
+            self.oauth1Session = MemoryOAuth1Session(accountId: config.accountId!)
         } else {
             self.oauth1Session = session!
         }
